@@ -7,6 +7,7 @@ html {
     font-size: 14px;
     line-height: 1.5;
     background-color: lightgray;
+    color: black;
 }
 
 body {
@@ -15,21 +16,53 @@ body {
     padding: 10px;
 }
 
+h3,ul {
+    margin-top: 0;
+}
+
+ul {
+    padding-left: 0;
+}
+
 header {
     height: 50px;
     text-align: center;
     font-size: 2rem;
 }
 
-#counter {
+aside {
+    width: 30%;
+    margin-right: 20px;
+    float: left;
+}
+
+aside ul li {
+    list-style: none;
+    margin-top: 10px;
+}
+
+aside ul li.active, aside ul li:hover {
+    background-color: lightslategrey;
+}
+
+main {
+    width: 400px;
+    float: left;
+}
+
+main > .cat-info {
+    display: none;
+}
+main > .cat-info:first-child {
+    display: block;
+}
+
+img {
+    max-width: 100%;
+}
+
+.counter {
     font-size: 1.2rem;
     opacity: .6;
 }
 
-main {
-    display: flex;
-}
-
-main > div {
-    flex: 1;
-}
