@@ -26,6 +26,10 @@ header {
     opacity: .6;
 }
 
+main {
+    display: flex;
+}
+
 main > div {
-    margin-top: 40px;
+    flex: 1;
 }
