@@ -1,0 +1,31 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Franklin Gothic Regular', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: lightgray;
+}
+
+body {
+    width: 70%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+header {
+    height: 50px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+#counter {
+    font-size: 1.2rem;
+    opacity: .6;
+}
+
+main > div {
+    margin-top: 40px;
+}
