@@ -1,4 +1,6 @@
-*, *:before, *:after {
+*,
+*:before,
+*:after {
     box-sizing: border-box;
 }
 
@@ -16,7 +18,8 @@ body {
     padding: 10px;
 }
 
-h3,ul {
+h3,
+ul {
     margin-top: 0;
 }
 
@@ -41,7 +44,8 @@ aside ul li {
     margin-top: 10px;
 }
 
-aside ul li.active, aside ul li:hover {
+aside ul li.active,
+aside ul li:hover {
     background-color: lightslategrey;
 }
 
@@ -65,4 +69,3 @@ img {
     font-size: 1.2rem;
     opacity: .6;
 }
-

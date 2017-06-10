@@ -1,20 +1,21 @@
-(function() {
+(function () {
 
     var counterMap = {};
 
     function initCatCounter(elemId) {
 
-        if(!counterMap[elemId]) counterMap[elemId] = 0;
-
+        if (!counterMap[elemId]) {
+            counterMap[elemId] = 0;
+        }
         var catElem = document.getElementById(elemId);
 
-        if(catElem) {
-            var imgElem     = catElem.querySelectorAll('img')[0];
+        if (catElem) {
+            var imgElem = catElem.querySelectorAll('img')[0];
             var counterElem = catElem.querySelectorAll('.counter')[0];
-            if(imgElem) {
-                imgElem.addEventListener('click', function() {
+            if (imgElem) {
+                imgElem.addEventListener('click', function () {
                     counterMap[elemId] = counterMap[elemId] + 1;
-                    if(counterElem) {
+                    if (counterElem) {
                         counterElem.innerText = counterMap[elemId];
                     }
                 });
@@ -22,12 +23,12 @@
         }
     }
     function setAttribute(elementList, className, value) {
-        elementList.forEach(function(element) {
+        elementList.forEach(function (element) {
             element.setAttribute(className, value);
         });
     }
     function setCSS(elementList, prop, value) {
-        elementList.forEach(function(element) {
+        elementList.forEach(function (element) {
             element.style[prop] = value;
         });
     }
@@ -48,22 +49,22 @@
         toggleClass(element, elementList, 'class', 'active', '');
     }
 
-    document.addEventListener('DOMContentLoaded', function(event) {
+    document.addEventListener('DOMContentLoaded', function (event) {
 
-        var catList    = document.getElementById('cat-list');
+        var catList = document.getElementById('cat-list');
         var catContent = document.getElementById('cat-content');
 
-        if(catList) {
+        if (catList) {
             var catListLinks = catList.querySelectorAll('li');
-            catListLinks.forEach(function(catLink) {
+            catListLinks.forEach(function (catLink) {
 
                 var elemId = catLink.getAttribute('data-trigger');
                 var catElem = document.getElementById(elemId);
                 initCatCounter(elemId);
 
-                catLink.addEventListener('click',function() {
+                catLink.addEventListener('click', function () {
                     activateLink(catLink, catListLinks);
-                    if(catElem) {
+                    if (catElem) {
                         var catElems = catContent.querySelectorAll('.cat-info');
                         showContent(catElem, catElems);
                     }
