@@ -9,7 +9,7 @@
     "freeze": true,
     "immed": true,
     "indent": 4,
-    "latedef": "nofunc",
+    //"latedef": "nofunc",
     "newcap": true,
     "noarg": true,
     "noempty": true,

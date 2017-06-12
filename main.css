@@ -54,13 +54,6 @@ main {
     float: left;
 }
 
-main > .cat-info {
-    display: none;
-}
-main > .cat-info:first-child {
-    display: block;
-}
-
 img {
     max-width: 100%;
 }

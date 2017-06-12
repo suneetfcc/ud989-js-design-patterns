@@ -1,75 +1,132 @@
-(function () {
+(function($window, $document) {
 
-    var counterMap = {};
-
-    function initCatCounter(elemId) {
-
-        if (!counterMap[elemId]) {
-            counterMap[elemId] = 0;
-        }
-        var catElem = document.getElementById(elemId);
-
-        if (catElem) {
-            var imgElem = catElem.querySelectorAll('img')[0];
-            var counterElem = catElem.querySelectorAll('.counter')[0];
-            if (imgElem) {
-                imgElem.addEventListener('click', function () {
-                    counterMap[elemId] = counterMap[elemId] + 1;
-                    if (counterElem) {
-                        counterElem.innerText = counterMap[elemId];
-                    }
-                });
+    var model = (function() {
+        var data = [
+            {
+                name: 'Pebbles',
+                clicks: 0,
+                url: 'img/cat1.jpg'
+            }, {
+                name: 'Mr. Piffles',
+                clicks: 0,
+                url: 'img/cat2.jpg'
+            }, {
+                name: 'Whiskers',
+                clicks: 0,
+                url: 'img/cat3.jpg'
+            }, {
+                name: 'Grumpy',
+                clicks: 0,
+                url: 'img/cat4.jpg'
+            }, {
+                name: 'Little Paws',
+                clicks: 0,
+                url: 'img/cat5.jpg'
+            },{
+                name: 'Freckles',
+                clicks: 0,
+                url: 'img/cat6.jpg'
             }
-        }
-    }
-    function setAttribute(elementList, className, value) {
-        elementList.forEach(function (element) {
-            element.setAttribute(className, value);
-        });
-    }
-    function setCSS(elementList, prop, value) {
-        elementList.forEach(function (element) {
-            element.style[prop] = value;
-        });
-    }
-    function toggleClass(element, elementList, className, activeValue, inactiveValue) {
-        setAttribute(elementList, className, inactiveValue);
-        element.setAttribute(className, activeValue);
-    }
-    function toggleCSS(element, elementList, prop, activeValue, inactiveValue) {
-        setCSS(elementList, prop, inactiveValue);
-        element.style[prop] = activeValue;
-    }
+        ];
 
-    function showContent(element, elementList) {
-        toggleCSS(element, elementList, 'display', 'block', 'none');
-    }
+        var addClick = function(id) {
+            data[id].clicks += 1;
+        };
 
-    function activateLink(element, elementList) {
-        toggleClass(element, elementList, 'class', 'active', '');
-    }
+        var clicks = function(id) {
+            return data[id].clicks;
+        };
 
-    document.addEventListener('DOMContentLoaded', function (event) {
+        var url = function(id) {
+            return data[id].url;
+        };
 
-        var catList = document.getElementById('cat-list');
-        var catContent = document.getElementById('cat-content');
+        var name = function(id) {
+            return data[id].name;
+        };
 
-        if (catList) {
-            var catListLinks = catList.querySelectorAll('li');
-            catListLinks.forEach(function (catLink) {
+        var getAll = function() {
+            return data;
+        };
 
-                var elemId = catLink.getAttribute('data-trigger');
-                var catElem = document.getElementById(elemId);
-                initCatCounter(elemId);
+        return {
+            clicks: clicks,
+            url: url,
+            name: name,
+            addClick: addClick,
+            getAll: getAll
+        };
+    })();
 
-                catLink.addEventListener('click', function () {
-                    activateLink(catLink, catListLinks);
-                    if (catElem) {
-                        var catElems = catContent.querySelectorAll('.cat-info');
-                        showContent(catElem, catElems);
-                    }
+    var listView = {
+        init: function() {
+            this.render();
+        },
+        render: function() {
+            var listView = $document.getElementById('cat-list');
+            octopus.getAllNames().forEach(function(name,index) {
+                var li = $document.createElement('li');
+                var idx = index;
+                li.innerHTML = '<div' + ((index === 0) ? ' class="active">' : '>');
+                li.innerHTML += name + '</div>';
+                li.addEventListener('click', function (event) {
+                    [].forEach.call(listView.children, function(element) {
+                        element.className = '';
+                    });
+                    li.className = 'active';
+                    detailsView.render(idx);
                 });
+                listView.appendChild(li);
+            }, this);
+        }
+    };
+
+    var detailsView = {
+        init: function() {
+            this.render(0);
+        },
+        render: function(id) {
+            var that = this;
+            var detailsView = $document.getElementById('cat-details');
+            detailsView.removeChild(detailsView.firstChild);
+            var html = '<div><h3>' + octopus.name(id) + '</h3>';
+            html    += '<img src="' + octopus.url(id) + '" alt="Meow!!">';
+            html    += '<div class="counter">' + octopus.clicks(id) + ' clicks</div></div>';
+            detailsView.innerHTML = html;
+            var img = detailsView.querySelectorAll('img')[0];
+            img.addEventListener('click', function (e) {
+                octopus.addClick(id);
+                that.render(id);
             });
         }
+    };
+
+    var octopus = {
+        init: function() {
+            listView.init();
+            detailsView.init();
+        },
+        name: function(id) {
+            return model.name(id);
+        },
+        url: function(id) {
+            return model.url(id);
+        },
+        clicks: function(id) {
+            return model.clicks(id);
+        },
+        getAllNames: function() {
+            return model.getAll().map(function(obj) {
+                return obj.name;
+            });
+        },
+        addClick: function(id) {
+            model.addClick(id);
+        }
+    };
+
+    $document.addEventListener('DOMContentLoaded', function () {
+        octopus.init();
     });
-})();
+
+})(window, document);
