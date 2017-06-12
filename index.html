@@ -14,11 +14,25 @@
   <aside>
     <ul id="cat-list"></ul>
   </aside>
-  <main id="cat-details">
-    <div>
+  <main>
+    <div id="cat-details">
       <h3  id="cat-name"></h3>
       <img id="cat-image"   src="" alt="Meow!!">
       <div id="cat-counter" class="counter"></div>
+    </div>
+    <div class="admin">
+      <button id="btn-admin">Admin</button>
+      <form id="admin-form">
+        <div>
+          <p>Name: <input name="catname" class="right"></p>
+          <p>ImageUrl: <input name="caturl" class="right"></p>
+        </div>
+        <br>
+        <span class="right">
+          <button id="btn-cancel">Cancel</button>
+          <button id="btn-save">Save</button>
+        </span>
+      </form>
     </div>
   </main>
   <script src="main.js"></script>

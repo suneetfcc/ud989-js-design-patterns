@@ -28,7 +28,15 @@
                 clicks: 0,
                 url: 'img/cat6.jpg'
             }
-        ]
+        ],
+        update: function(cat) {
+            this.cats.forEach(function (c,idx) {
+                if (this.current.name === c.name) {
+                    this.cats[idx] = cat;
+                }
+            }, this);
+            this.current = cat;
+        }
     };
 
     var listView = {
@@ -37,6 +45,7 @@
             this.render();
         },
         render: function() {
+            this.catListElem.innerHTML = '';
             octopus.getAllCats().forEach(function(cat) {
                 var that = this;
                 var li = $document.createElement('li');
@@ -50,6 +59,11 @@
                     octopus.setCurrentCat(cat);
                 });
             }, this);
+            [].forEach.call(this.catListElem.children, function(li) {
+                if (li.textContent === octopus.getCurrentCat().name) {
+                    li.className = 'active';
+                }
+            });
         }
     };
 
@@ -72,11 +86,55 @@
         }
     };
 
+    var adminView = {
+        init: function() {
+            this.form = $document.getElementById('admin-form');
+            this.adminBtn = $document.getElementById('btn-admin');
+            this.cancelBtn = $document.getElementById('btn-cancel');
+            this.saveBtn = $document.getElementById('btn-save');
+            this.show = true;
+            var that = this;
+            this.adminBtn.addEventListener('click', function() {
+                that.toggle();
+            });
+            this.cancelBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                that.render();
+                that.toggle();
+            });
+            this.saveBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                octopus.saveCat({name: that.form.catname.value,
+                                url: that.form.caturl.value,
+                                clicks: 0
+                            });
+                that.toggle();
+            });
+            this.toggle();
+            this.render();
+        },
+        toggle: function() {
+            this.show = !this.show;
+            if (this.show) {
+                this.form.style.visibility = 'visible';
+            }
+            else {
+                this.form.style.visibility = 'hidden';
+            }
+        },
+        render: function() {
+            var cat = octopus.getCurrentCat();
+            this.form.catname.value = cat.name;
+            this.form.caturl.value  = cat.url;
+        }
+    };
+
     var octopus = {
         init: function() {
             model.current = model.cats[0];
             listView.init();
             detailsView.init();
+            adminView.init();
         },
         getCurrentCat: function() {
             return model.current;
@@ -84,6 +142,7 @@
         setCurrentCat: function(cat) {
             model.current = cat;
             detailsView.render();
+            adminView.render();
         },
         incrementCatCounter: function() {
             model.current.clicks += 1;
@@ -91,6 +150,11 @@
         },
         getAllCats: function() {
             return model.cats;
+        },
+        saveCat: function(cat) {
+            model.update(cat);
+            listView.render();
+            detailsView.render();
         }
     };
 
